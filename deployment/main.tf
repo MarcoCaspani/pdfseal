@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-    region = "eu-west-1"
+    region = var.region
 }
 
 # -------------------
@@ -16,7 +16,7 @@ provider "aws" {
 
 # Create an S3 bucket to put the PDF to be watermarked
 resource "aws_s3_bucket" "pdf_bucket" {
-  bucket = "watermark-master-pdf-bucket" # must be globally unique
+  bucket = var.pdf_bucket_name # must be globally unique
 }
 
 # Enable versioning on the bucket (optional, to keep track of changes if you update the master PDF)
@@ -87,7 +87,7 @@ resource "aws_apigatewayv2_api" "pdf_api" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["https://axismundi.life"]  # your Squarespace domain
+    allow_origins = [var.website_domain]  # your domain
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["Content-Type", "Authorization"]
     max_age       = 3600
@@ -113,10 +113,10 @@ resource "aws_apigatewayv2_stage" "default" {
   auto_deploy = true
 }
 
-# grant API Gateway permission to invoke the Lambda function to the user "ben-gates"
-resource "aws_iam_user_policy" "ben_gates_full_apigw" {
-  name = "ben-gates-full-apigw"
-  user = "ben-gates"
+# grant API Gateway permission to invoke the Lambda function to the iam user
+resource "aws_iam_user_policy" "iam_user_full_apigw" {
+  name = "iam-user-full-apigw"
+  user = var.iam_user_name
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -172,7 +172,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "lambda_function" {
-    function_name = "python_terraform_lambda_pdfsealer"
+    function_name = var.lambda_function_name
     role          = aws_iam_role.iam_for_lambda.arn
 
     filename      = data.archive_file.lambda_zip.output_path

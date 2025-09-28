@@ -12,5 +12,8 @@
 *.tfstate.backup
 .terraform/
 .terraform.lock.hcl
+.terraform.tfvars
 
 lambda_function_src.zip
+
+*.html

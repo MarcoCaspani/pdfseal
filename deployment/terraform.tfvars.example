@@ -1,0 +1,9 @@
+region = "eu-east-1"
+
+iam_user_name = "user-name"
+
+website_domain = "https://youramazingwebsite.com"
+
+pdf_bucket_name = "pdf-bucket-name-which-is-globally-unique"
+
+lambda_function_name = "lambda-function-name"
