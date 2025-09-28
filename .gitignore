@@ -1,0 +1,16 @@
+/src/modules
+
+/assets
+
+.todo
+.idea
+.venv
+*.iml
+
+# Terraform files
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+lambda_function_src.zip
