@@ -87,7 +87,7 @@ resource "aws_apigatewayv2_api" "pdf_api" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = [var.website_domain]  # your domain
+    allow_origins = var.website_domains  # domains allowed to access the API
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["Content-Type", "Authorization"]
     max_age       = 3600

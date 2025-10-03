@@ -8,9 +8,9 @@ variable "iam_user_name" {
   type        = string
 }
 
-variable "website_domain" {
-  description = "The domain name for the website (e.g., example.com)"
-  type        = string
+variable "website_domains" {
+  description = "A list of domain names for the website to allow requests (e.g., [example.com, www.example.com])"
+  type        = list(string)
 }
 
 variable "pdf_bucket_name" {
